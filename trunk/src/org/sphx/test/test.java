@@ -1,10 +1,8 @@
-/*
- * $Id: test.java 1316 2008-06-23 22:51:46Z shodan $
- */
-
 package org.sphx.test;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.sphx.api.SphinxClient;
 import org.sphx.api.SphinxException;
@@ -19,17 +17,20 @@ public class test
 {
 	public static void main ( String[] argv ) throws SphinxException
 	{
+//		SQLUtils.init();
 		StringBuffer q = new StringBuffer();
-		String host = "192.168.1.111";
-		int port = 3333;
-		int mode = SphinxClient.SPH_MATCH_EXTENDED;
-		String index = "*";
+		String host = "202.173.255.59";
+		int port = 3312;
+//		int mode = SphinxClient.SPH_MATCH_EXTENDED;
+		int mode = SphinxClient.SPH_MATCH_PHRASE;
+		String index = "main";
 		int offset = 0;
 		int limit = 20;
-		int sortMode = SphinxClient.SPH_SORT_EXTENDED;
-		String sortClause = "@id DESC";
+//		int sortMode = SphinxClient.SPH_SORT_EXTENDED;
+		int sortMode = SphinxClient.SPH_SORT_RELEVANCE;
+		String sortClause = "";
 		String groupBy = "";
-		String groupSort = "";
+		String groupSort = "@count desc";
 		
 		SphinxClient cl = new SphinxClient();
 
@@ -43,9 +44,11 @@ public class test
 			cl.SetGroupBy ( groupBy, SphinxClient.SPH_GROUPBY_ATTR, groupSort );
 		}
 
-		q.append("@CI_Name 公司");
-		
+//		q.append("@CI_Name 高潮");
+//		q.append("性交");
+		q.append("英语");
 		SphinxResult res = cl.Query(q.toString(), index);
+		
 		if ( res==null )
 		{
 			System.err.println ( "Error: " + cl.GetLastError() );
@@ -71,7 +74,8 @@ public class test
 
 			if ( res.attrNames==null || res.attrTypes==null )
 				continue;
-
+//			String industry = getField("CI_Industry", info.docId+"");
+//			System.out.print("CI_Industry:" + industry+"\t");
 			for ( int a=0; a<res.attrNames.length; a++ )
 			{
 				System.out.print ( ", " + res.attrNames[a] + "=" );
@@ -116,6 +120,7 @@ public class test
 			System.out.println();
 		}
 	}
+	
 }
 
 /*
