@@ -19,17 +19,23 @@ public class test
 	{
 //		SQLUtils.init();
 		StringBuffer q = new StringBuffer();
-		String host = "202.173.255.59";
-		int port = 3312;
-//		int mode = SphinxClient.SPH_MATCH_EXTENDED;
-		int mode = SphinxClient.SPH_MATCH_PHRASE;
+//		String host = "202.173.255.59";
+		String host = "192.168.1.111";
+		int port = 3012;	//培训搜索
+//		int port = 3014;	//博客搜索
+//		int port = 3013;	//图书搜索
+//		int mode = SphinxClient.SPH_MATCH_ALL;
+		int mode = SphinxClient.SPH_MATCH_EXTENDED;
 		String index = "main";
 		int offset = 0;
 		int limit = 20;
-//		int sortMode = SphinxClient.SPH_SORT_EXTENDED;
+//		int sortMode = SphinxClient.SPH_SORT_EXPR;
 		int sortMode = SphinxClient.SPH_SORT_RELEVANCE;
 		String sortClause = "";
+//		String groupBy = "ET_CostID";
+//		String groupBy = "ET_DomainID";
 		String groupBy = "";
+//		String groupBy = "MB_DomainID";
 		String groupSort = "@count desc";
 		
 		SphinxClient cl = new SphinxClient();
@@ -44,9 +50,12 @@ public class test
 			cl.SetGroupBy ( groupBy, SphinxClient.SPH_GROUPBY_ATTR, groupSort );
 		}
 
-//		q.append("@CI_Name 高潮");
-//		q.append("性交");
-		q.append("英语");
+		q.append("@ET_TypeVar \"市场营销\"");
+//		q.append("@ET_DomainID 1");
+//		q.append("@MB_Title 高考");
+//		q.append("@groupIdVar 3");
+//		q.append("@MB_NewsTime 20091203");
+//		q.append("34 ");
 		SphinxResult res = cl.Query(q.toString(), index);
 		
 		if ( res==null )
